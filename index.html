@@ -1231,10 +1231,11 @@ body.html-full-open{overflow:hidden}
  }
  function usedPct(used, cap){ return pctLabel(cap > 0 ? used / cap : 0); }
  function effectiveWeekly(){
-   const raw = +(state.keyInfo?.weekly || 0), fp = state.keyFp;
-   if(!fp) return raw;
-   const rec = (LSJ.get('fsm.weekbase', {}) || {})[fp];
-   if(!rec || rec.week !== weekKeyUTC()) return raw;
+   const raw = +(state.keyInfo?.weekly || 0), fps = keyFpList();
+   if(!fps.length) return raw;
+   const all = LSJ.get('fsm.weekbase', {}) || {}, wk = weekKeyUTC();
+   const rec = fps.map(f => all[f]).filter(r => r && r.week === wk).sort((a, b) => (+b.base || 0) - (+a.base || 0))[0];
+   if(!rec) return raw;
    return Math.max(0, raw - (+rec.base || 0));
  }
  async function keyFp(k){
@@ -1245,11 +1246,26 @@ body.html-full-open{overflow:hidden}
    }catch(_){ return ''; }
  }
  let keyFpP = null;
- function refreshKeyFp(){ const k = state.apiKey; keyFpP = keyFp(k).then(fp => { if(k === state.apiKey) state.keyFp = fp; return fp; }); return keyFpP; }
+ /* FSM AI calcule l'empreinte sur la clé telle qu'elle est enregistrée dans relais.key (sans la nettoyer au chargement),
+    THANATOS sur la clé nettoyée. Si les deux diffèrent (espace ou retour à la ligne final, import de sauvegarde),
+    on lit et on écrit sous les deux empreintes : un déblocage fait d'un côté est vu de l'autre. */
+ function fsmRawKey(){
+   const raw = LS.get('relais.key'); if(!raw) return '';
+   try{ const v = JSON.parse(raw); return typeof v === 'string' ? v : ''; }catch(_){ return String(raw); }
+ }
+ function refreshKeyFp(){
+   const k = state.apiKey, raw = fsmRawKey();
+   const keys = [k]; if(k && raw && raw !== k && raw.trim() === k) keys.unshift(raw);
+   keyFpP = Promise.all(keys.map(keyFp)).then(fps => { fps = fps.filter(Boolean); if(k === state.apiKey){ state.keyFp = fps[0] || ''; state.keyFps = fps; } return fps[0] || ''; });
+   return keyFpP;
+ }
+ function keyFpList(){ return state.keyFps && state.keyFps.length ? state.keyFps : (state.keyFp ? [state.keyFp] : []); }
+ // FSM AI n'est pas visible depuis ce stockage (sur iPhone, chaque app de l'écran d'accueil a le sien).
+ function fsmHidden(){ return !LS.get('relais.key'); }
  function unlockState(){
-   const fp = state.keyFp; if(!fp) return null;
-   const rec = (LSJ.get('fsm.unlock', {}) || {})[fp];
-   return rec && rec.month === monthIdUTC() ? rec : null;
+   const fps = keyFpList(); if(!fps.length) return null;
+   const all = LSJ.get('fsm.unlock', {}) || {}, m = monthIdUTC();
+   return fps.map(f => all[f]).find(r => r && r.month === m) || null;
  }
  function monthLeftRatio(){
    const ki = state.keyInfo; if(!(ki && ki.limit > 0)) return 0;
@@ -1265,11 +1281,10 @@ body.html-full-open{overflow:hidden}
  }
  function applyUnlock(){
    if(!canUnlock().ok) return false;
-   const fp = state.keyFp, base = LSJ.get('fsm.weekbase', {}) || {};
-   base[fp] = { week: weekKeyUTC(), base: +(state.keyInfo?.weekly || 0) };
+   const fps = keyFpList(), base = LSJ.get('fsm.weekbase', {}) || {};
+   const um = LSJ.get('fsm.unlock', {}) || {}, at = fsmNow().toISOString();
+   for(const fp of fps){ base[fp] = { week: weekKeyUTC(), base: +(state.keyInfo?.weekly || 0) }; um[fp] = { month: monthIdUTC(), at }; }
    LSJ.set('fsm.weekbase', base);
-   const um = LSJ.get('fsm.unlock', {}) || {};
-   um[fp] = { month: monthIdUTC(), at: fsmNow().toISOString() };
    LSJ.set('fsm.unlock', um);
    setStatus('Semaine débloquée. Le plafond du mois reste le même.', 'ok');
    renderConnection();
@@ -1314,7 +1329,7 @@ body.html-full-open{overflow:hidden}
    if(unlockAsk){
      const left = Math.round(monthLeftRatio() * 100);
      const leftTxt = left <= 0 ? '0 %' : left < 1 ? 'moins de 1 %' : left + ' %';
-     return `<div class="kp-confirm"><p>Ce déblocage remet à zéro le compteur de la semaine en cours. La consommation continue de compter dans le mois.</p><p>Il reste <b>${leftTxt}</b> du plafond mensuel. Une semaine complète représente <b>30 %</b> de ce plafond. Le plafond mensuel ne change pas.</p><p class="us-sub">Un seul déblocage par mois et par clé, sur cet appareil.</p><div class="kp-confirm-row"><button type="button" class="kp-unlock primary" data-unlock-yes>Oui, débloquer</button><button type="button" class="kp-unlock" data-unlock-no>Annuler</button></div></div>`;
+     return `<div class="kp-confirm"><p>Ce déblocage remet à zéro le compteur de la semaine en cours. La consommation continue de compter dans le mois.</p><p>Il reste <b>${leftTxt}</b> du plafond mensuel. Une semaine complète représente <b>30 %</b> de ce plafond. Le plafond mensuel ne change pas.</p><p class="us-sub">Un seul déblocage par mois et par clé, sur cet appareil.</p>${fsmHidden() ? '<p class="us-sub">FSM AI n’est pas visible depuis cette app : si tu as déjà débloqué ta limite dans FSM AI ce mois-ci, ce déblocage n’apparaît pas ici. Sur iPhone, chaque app ajoutée à l’écran d’accueil garde ses données à part.</p>' : ''}<div class="kp-confirm-row"><button type="button" class="kp-unlock primary" data-unlock-yes>Oui, débloquer</button><button type="button" class="kp-unlock" data-unlock-no>Annuler</button></div></div>`;
    }
    return `<button class="kp-unlock" type="button" data-unlock>Débloquer ma limite</button>`;
  }
@@ -1419,7 +1434,9 @@ body.html-full-open{overflow:hidden}
    fetchKeyInfo();
    usageTimer = setInterval(()=>{ if(!document.hidden && !state.busy) fetchKeyInfo(); }, 60000);
  }
- document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && state.apiKey && state.keyInfo && Date.now() - state.keyInfo.t > 60000) fetchKeyInfo(); });
+ // FSM AI ouvert dans un autre onglet du même navigateur : on relit tout de suite un déblocage ou une clé modifiée.
+window.addEventListener('storage', e => { if(!e.key || /^(fsm\.unlock|fsm\.weekbase|relais\.key)$/.test(e.key)){ if(e.key === 'relais.key') refreshKeyFp(); try{ renderKeyStat(); }catch(_){} } });
+document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && state.apiKey && state.keyInfo && Date.now() - state.keyInfo.t > 60000) fetchKeyInfo(); });
  function toggleKeyPop(force){
    const open = force != null ? force : keyPop.hidden;
    keyPop.hidden = !open; pill.setAttribute('aria-expanded', String(open));
@@ -1923,7 +1940,7 @@ body.html-full-open{overflow:hidden}
    state.apiKey = key;
    if(remember){ LS.set('thanatos.key', key); state.keySource = (key === fsmKey()) && state.keySource === 'fsm' ? 'fsm' : 'thanatos'; LS.del('thanatos.nofsm'); }
    else { LS.del('thanatos.key'); LS.set('thanatos.nofsm', '1'); state.keySource = 'session'; }
-   if(changed){ state.keyInfo = null; state.plan = ''; state.keyState = 'wait'; state.keyFp = ''; refreshKeyFp(); }
+   if(changed){ state.keyInfo = null; state.plan = ''; state.keyState = 'wait'; state.keyFp = ''; state.keyFps = []; refreshKeyFp(); }
    renderConnection(); startUsageRefresh(); updateSend();
  }
  document.querySelectorAll('.mode-btn').forEach(btn=>btn.addEventListener('click',()=>setMode(btn.dataset.mode)));
