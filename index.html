@@ -216,6 +216,671 @@ img, svg, .logo {
   html { scroll-behavior: auto !important; }
 }
 
+
+/* Pro coding workbench: files, languages, prompt presets */
+.workspace-tools{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 12px}
+.tool-btn,.file-chip,.language-select{font:inherit;font-size:11px;color:#c8d4e5;background:#101824;border:1px solid #2a394f;border-radius:9px;padding:8px 11px}
+.tool-btn{cursor:pointer;transition:all .18s}
+.tool-btn:hover{border-color:#8b72df;background:#1a2031;color:#fff;transform:translateY(-1px)}
+.tool-btn.primary-tool{background:linear-gradient(135deg,#7352cf,#4e45a8);border-color:#9881ef;color:white}
+.file-input-hidden{display:none!important}
+.file-dock{display:none;flex-wrap:wrap;gap:7px;margin:0 0 10px}
+.file-dock.has-files{display:flex}
+.file-chip{display:flex;align-items:center;gap:7px;max-width:100%;overflow-wrap:anywhere}
+.file-chip button{border:0;background:transparent;color:#ff91a3;font-size:14px;padding:0 2px;cursor:pointer}
+.language-select{max-width:180px}
+.tool-hint{font-size:10px;color:#8190a5}
+
+
+.photo-preview-list{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+.photo-preview{display:flex;align-items:center;gap:8px;padding:6px 9px;background:#101824;border:1px solid #2a394f;border-radius:10px;max-width:100%}
+.photo-preview img{width:48px;height:48px;object-fit:cover;border-radius:7px}
+.photo-preview span{font-size:11px;color:#c8d4e5;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.photo-preview button{border:0;background:transparent;color:#ff91a3;font-size:16px;cursor:pointer}
+
+
+/* Professional typography system — local fonts only, no external dependencies */
+:root {
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-code: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+}
+html, body, button, input, textarea, select, option, label, .app, .brand, .mode-btn,
+.model-pill, .welcome, .suggestion, .composer, .composer-note, .status, .modal, .field,
+.tool-btn, .file-chip, .language-select, .photo-preview, .tool-hint {
+  font-family: var(--font-ui) !important;
+  font-kerning: normal;
+  font-feature-settings: "kern" 1, "liga" 1;
+  letter-spacing: normal;
+}
+body { font-size: 14px; line-height: 1.55; font-weight: 400; }
+h1, h2, h3, h4, h5, h6, .brand h1, .welcome h2, .modal h3 {
+  font-family: var(--font-ui) !important;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+p, li, .welcome p, .bubble, .help, .field span {
+  font-family: var(--font-ui) !important;
+  font-weight: 400;
+  line-height: 1.7;
+}
+button, .mode-btn, .tool-btn, .suggestion, .primary, .secondary, .send {
+  font-family: var(--font-ui) !important;
+  font-weight: 550;
+  letter-spacing: -0.005em;
+}
+input, textarea, select {
+  font-family: var(--font-ui) !important;
+  font-size: 16px;
+  line-height: 1.55;
+  font-weight: 400;
+}
+pre, code, kbd, samp, .code-block, .code-content {
+  font-family: var(--font-code) !important;
+  font-variant-ligatures: none;
+  letter-spacing: 0;
+}
+@media (min-width: 800px) {
+  body { font-size: 14px; }
+  .welcome p, .bubble { font-size: 14px; }
+}
+
+
+/* Strict monochrome developer palette: black / charcoal / grey only */
+:root {
+  --bg: #080808;
+  --panel: #101010;
+  --panel2: #171717;
+  --line: #303030;
+  --text: #eeeeee;
+  --muted: #a0a0a0;
+  --purple: #bdbdbd;
+  --purple2: #777777;
+  --danger: #c2c2c2;
+  --ok: #c8c8c8;
+  --cyan: #d0d0d0;
+  --surface: rgba(16,16,16,.94);
+}
+html, body {
+  color: var(--text) !important;
+  background-color: var(--bg) !important;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(180deg,#0b0b0b,#070707 68%) !important;
+  background-size: 28px 28px,28px 28px,auto !important;
+}
+body:before { background: linear-gradient(110deg,transparent 49.8%,rgba(255,255,255,.025) 50%,transparent 50.2%) !important; }
+header:after { background: linear-gradient(90deg,#a8a8a8,transparent) !important; }
+.logo, .hero-icon {
+  background: linear-gradient(145deg,#242424,#101010) !important;
+  border-color: #444 !important;
+  color: #dedede !important;
+  box-shadow: 0 0 0 1px #ffffff05,0 12px 38px #0008 !important;
+}
+.mode-btn, .tool-btn, .suggestion, .icon-btn, .secondary, .model-pill, .file-chip, .language-select {
+  background: linear-gradient(145deg,#181818,#101010) !important;
+  border-color: #343434 !important;
+  color: #d0d0d0 !important;
+}
+.mode-btn.active, .primary, .send, .tool-btn.primary-tool {
+  background: linear-gradient(135deg,#555,#292929) !important;
+  border-color: #777 !important;
+  color: #fff !important;
+  box-shadow: 0 5px 20px #0008 !important;
+}
+.mode-btn.active:after { background: linear-gradient(90deg,transparent,#c7c7c7,transparent) !important; }
+.mode-btn:hover, .tool-btn:hover, .suggestion:hover, .icon-btn:hover, .secondary:hover {
+  background: #242424 !important;
+  border-color: #666 !important;
+  color: #fff !important;
+}
+.welcome h2 {
+  background: linear-gradient(100deg,#f4f4f4,#bdbdbd 60%,#858585) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  color: transparent !important;
+}
+.composer, .modal {
+  background: linear-gradient(145deg,#151515,#0c0c0c) !important;
+  border-color: #383838 !important;
+  box-shadow: 0 18px 60px #0009,0 0 0 1px #ffffff03 !important;
+}
+.composer:after { background: linear-gradient(90deg,#999,transparent) !important; }
+.composer:focus-within, .field input:focus, .field select:focus {
+  border-color: #777 !important;
+  box-shadow: 0 0 0 3px #ffffff0d !important;
+}
+.composer textarea::placeholder, .tool-hint, .status, .mode-note, .composer-note, .help {
+  color: #909090 !important;
+}
+.dot { background: #bdbdbd !important; box-shadow: 0 0 8px #ffffff55 !important; }
+.usage-label { color: #d2d2d2 !important; }
+.usage-track { background: #111 !important; border-color: #444 !important; }
+.usage-fill { background: linear-gradient(90deg,#666,#c8c8c8) !important; box-shadow: 0 0 12px #ffffff22 !important; }
+.usage-fill:after { background: linear-gradient(90deg,transparent,#ffffff55,transparent) !important; }
+.avatar, .user .avatar {
+  background: linear-gradient(145deg,#292929,#111) !important;
+  border-color: #4a4a4a !important;
+  color: #e0e0e0 !important;
+}
+.user .bubble { background: #181818 !important; border-color: #363636 !important; }
+.bubble pre { background: #080808 !important; border-color: #333 !important; }
+.live-preview, .live-preview-head { background: #111 !important; border-color: #363636 !important; }
+.photo-preview { background: #111 !important; border-color: #363636 !important; }
+.photo-preview button { color: #d0d0d0 !important; }
+.warning, .status.error { color: #c8c8c8 !important; }
+.status.ok { color: #d0d0d0 !important; }
+.overlay { background: #000c !important; }
+
+
+/* Minimalist UI refinement: monochrome, less chrome, more workspace */
+:root {
+  --bg:#090909; --panel:#101010; --panel2:#141414; --line:#292929;
+  --text:#ededed; --muted:#929292; --purple:#bdbdbd; --purple2:#777;
+  --surface:rgba(12,12,12,.96);
+}
+html, body {
+  background-color:#090909 !important;
+  background-image:linear-gradient(180deg,#0b0b0b 0%,#080808 100%) !important;
+}
+body:before { display:none !important; }
+.app { max-width:1280px !important; padding-left:clamp(14px,2.4vw,32px) !important; padding-right:clamp(14px,2.4vw,32px) !important; }
+header {
+  height:64px !important;
+  border-bottom:1px solid #242424 !important;
+}
+header:after { display:none !important; }
+.brand { gap:10px !important; }
+.logo {
+  width:34px !important; height:34px !important; border-radius:9px !important;
+  box-shadow:none !important; background:#161616 !important; border-color:#303030 !important;
+}
+.brand h1 { font-size:12px !important; letter-spacing:.09em !important; }
+.brand p { font-size:9px !important; letter-spacing:.08em !important; color:#8a8a8a !important; }
+.header-actions { gap:7px !important; }
+.model-pill { padding:6px 9px !important; border-radius:7px !important; box-shadow:none !important; }
+.icon-btn { border-radius:8px !important; box-shadow:none !important; }
+.mode-bar { padding:14px 0 4px !important; gap:6px !important; }
+.mode-btn {
+  padding:8px 12px !important; border-radius:7px !important;
+  background:#111 !important; border:1px solid #292929 !important;
+  box-shadow:none !important; font-size:11px !important;
+}
+.mode-btn:before { display:none !important; }
+.mode-btn.active {
+  background:#202020 !important; border-color:#5a5a5a !important;
+  color:#f2f2f2 !important; box-shadow:none !important;
+}
+.mode-btn.active:after { display:none !important; }
+.mode-note { display:none !important; }
+.usage-wrap { margin:8px auto 10px !important; max-width:440px !important; }
+.usage-track { height:4px !important; border:0 !important; background:#252525 !important; }
+.usage-fill { background:#bdbdbd !important; box-shadow:none !important; }
+.usage-fill:after { display:none !important; }
+.usage-label { color:#bdbdbd !important; font-size:10px !important; letter-spacing:.04em !important; }
+main { min-height:0 !important; }
+.welcome {
+  max-width:720px !important; padding:clamp(26px,6vh,58px) 0 24px !important;
+  animation:none !important;
+}
+.hero-icon {
+  width:54px !important; height:54px !important; border-radius:14px !important;
+  animation:none !important; box-shadow:none !important; background:#151515 !important;
+}
+.welcome h2 {
+  font-size:clamp(27px,3.4vw,40px) !important; line-height:1.15 !important;
+  letter-spacing:-.045em !important; margin-bottom:12px !important;
+  background:none !important; color:#f0f0f0 !important; -webkit-text-fill-color:#f0f0f0 !important;
+}
+.welcome p { font-size:13px !important; line-height:1.75 !important; color:#a0a0a0 !important; }
+.suggestions { gap:7px !important; margin-top:22px !important; }
+.suggestion {
+  padding:10px 12px !important; border-radius:8px !important;
+  background:#101010 !important; border-color:#292929 !important;
+  box-shadow:none !important; font-size:11px !important;
+}
+.suggestion:before { display:none !important; }
+.suggestion:hover { transform:none !important; background:#191919 !important; border-color:#555 !important; }
+.workspace-tools { gap:6px !important; margin-bottom:8px !important; }
+.tool-btn,.language-select {
+  padding:7px 9px !important; border-radius:7px !important;
+  background:#111 !important; border-color:#2a2a2a !important;
+  box-shadow:none !important; font-size:10px !important;
+}
+.tool-btn:hover { transform:none !important; }
+.tool-hint { display:none !important; }
+.file-dock { margin-bottom:8px !important; }
+.file-chip { padding:5px 7px !important; border-radius:7px !important; background:#111 !important; }
+.messages { gap:22px !important; padding-top:20px !important; }
+.message { animation:none !important; }
+.avatar {
+  width:30px !important; height:30px !important; border-radius:8px !important;
+  box-shadow:none !important;
+}
+.user .bubble {
+  background:#151515 !important; border:1px solid #282828 !important;
+  border-radius:10px !important; padding:11px 13px !important;
+}
+.assistant .bubble { line-height:1.75 !important; }
+.bubble pre {
+  background:#080808 !important; border:1px solid #292929 !important;
+  border-radius:8px !important; box-shadow:none !important;
+}
+.live-preview { border-radius:8px !important; box-shadow:none !important; }
+.live-preview-head { background:#141414 !important; }
+.composer-wrap { padding:8px 0 max(14px,env(safe-area-inset-bottom)) !important; }
+.composer {
+  padding:12px !important; border-radius:12px !important;
+  background:#101010 !important; border:1px solid #303030 !important;
+  box-shadow:none !important;
+}
+.composer:after { display:none !important; }
+.composer:focus-within { border-color:#626262 !important; box-shadow:0 0 0 2px #ffffff08 !important; }
+.composer textarea { min-height:52px !important; }
+.composer-bottom { border-top:1px solid #242424 !important; padding-top:8px !important; }
+.composer-note { font-size:10px !important; }
+.send { border-radius:8px !important; background:#d5d5d5 !important; border-color:#d5d5d5 !important; color:#101010 !important; box-shadow:none !important; }
+.send:hover { background:#fff !important; transform:none !important; box-shadow:none !important; }
+.overlay { backdrop-filter:blur(5px) !important; }
+.modal {
+  border-radius:13px !important; box-shadow:0 20px 60px #0009 !important;
+  background:#121212 !important; border-color:#303030 !important;
+}
+.field input,.field select { border-radius:8px !important; }
+@media(max-width:650px) {
+  .app { padding-left:12px !important; padding-right:12px !important; }
+  header { height:58px !important; }
+  .brand h1 { font-size:11px !important; }
+  .mode-bar { padding-top:10px !important; }
+  .mode-btn { flex:1; padding:8px 6px !important; font-size:10px !important; }
+  .welcome { padding:26px 0 18px !important; }
+  .hero-icon { width:46px !important; height:46px !important; }
+  .welcome h2 { font-size:29px !important; }
+  .suggestions { display:grid !important; grid-template-columns:1fr !important; max-width:100% !important; }
+  .workspace-tools { gap:5px !important; }
+  .tool-btn { padding:7px 8px !important; }
+  .language-select { max-width:145px !important; }
+}
+
+</style>
+<style>
+
+/* CLASSIC CHAT REFINEMENT — restrained, familiar conversation layout */
+:root {
+  --chat-bg: #101010;
+  --chat-panel: #151515;
+  --chat-line: #292929;
+  --chat-text: #eeeeee;
+  --chat-muted: #a0a0a0;
+}
+body {
+  background: var(--chat-bg) !important;
+  color: var(--chat-text) !important;
+}
+.app, .app-shell, .main, .main-content, .workspace, .chat-layout {
+  background: var(--chat-bg) !important;
+  box-shadow: none !important;
+}
+header, .topbar, .app-header {
+  min-height: 48px !important;
+  padding: 8px 14px !important;
+  background: #101010 !important;
+  border-bottom: 1px solid var(--chat-line) !important;
+  box-shadow: none !important;
+}
+header h1, .topbar h1, .app-header h1, .brand, .logo-title {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0 !important;
+}
+button, .btn, select, input, textarea {
+  box-shadow: none !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+button, .btn {
+  min-height: 36px;
+  border-radius: 8px !important;
+  transition: background-color .12s ease, border-color .12s ease !important;
+}
+button:hover, .btn:hover {
+  filter: none !important;
+  background-color: #292929 !important;
+}
+button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 2px solid #bdbdbd !important;
+  outline-offset: 2px !important;
+}
+.chat, .chat-area, .messages, #messages, .conversation, .message-list {
+  max-width: 820px !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.message, .msg, .chat-message {
+  border: 0 !important;
+  box-shadow: none !important;
+  border-radius: 12px !important;
+}
+.user-message, .message.user, .msg.user, .chat-message.user {
+  background: #202020 !important;
+}
+.assistant-message, .message.assistant, .msg.assistant, .chat-message.assistant {
+  background: transparent !important;
+}
+.composer, .input-area, .chat-input-area, .prompt-area {
+  max-width: 820px !important;
+  width: calc(100% - 24px) !important;
+  margin: 8px auto max(12px, env(safe-area-inset-bottom)) !important;
+  padding: 8px !important;
+  border: 1px solid #333 !important;
+  border-radius: 16px !important;
+  background: #191919 !important;
+  box-shadow: none !important;
+}
+.composer textarea, .input-area textarea, .chat-input-area textarea, .prompt-area textarea {
+  min-height: 44px !important;
+  max-height: 180px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+.sidebar, .side-panel, .right-panel, .left-panel {
+  box-shadow: none !important;
+}
+.panel, .card, .settings-card, .tool-card, .feature-card {
+  box-shadow: none !important;
+  border-radius: 10px !important;
+}
+.badge, .pill, .tag {
+  box-shadow: none !important;
+}
+@media (max-width: 700px) {
+  header, .topbar, .app-header { padding-left: 12px !important; padding-right: 12px !important; }
+  .chat, .chat-area, .messages, #messages, .conversation, .message-list { padding-left: 10px !important; padding-right: 10px !important; }
+  .composer, .input-area, .chat-input-area, .prompt-area { width: calc(100% - 16px) !important; }
+  button, .btn { min-height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+</style>
+<style>
+
+/* iPhone/iPad classic-dialogue layout correction */
+@media (max-width: 700px) {
+  .hero, .welcome, .welcome-screen, .empty-state, .landing, .intro {
+    min-height: 0 !important;
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+  }
+  .hero h1, .welcome h1, .welcome-screen h1, .empty-state h1, .landing h1, .intro h1 {
+    font-size: clamp(24px, 6vw, 34px) !important;
+    line-height: 1.15 !important;
+  }
+  .hero p, .welcome p, .welcome-screen p, .empty-state p, .landing p, .intro p {
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+  }
+  .hero button, .welcome button, .welcome-screen button, .empty-state button, .landing button, .intro button {
+    min-height: 42px !important;
+    margin: 4px 0 !important;
+  }
+  .composer, .input-area, .chat-input-area, .prompt-area {
+    position: sticky !important;
+    bottom: max(6px, env(safe-area-inset-bottom)) !important;
+    z-index: 20 !important;
+  }
+}
+
+</style>
+<style>
+
+/* THANATOS 5.5 — classic dialogue layout, mobile-first, no overlap */
+html, body {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: #101010 !important;
+}
+body { margin: 0; }
+.app {
+  width: 100% !important;
+  max-width: 1020px !important;
+  height: 100dvh !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: 0 max(12px, env(safe-area-inset-left)) env(safe-area-inset-bottom) max(12px, env(safe-area-inset-right)) !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+}
+.app > header {
+  flex: 0 0 auto !important;
+  min-height: 58px !important;
+  height: 58px !important;
+  padding: 8px 0 !important;
+}
+.brand { min-width: 0; gap: 9px !important; }
+.brand .logo { width: 38px !important; height: 38px !important; flex: 0 0 38px; }
+.brand h1 { font-size: 14px !important; letter-spacing: .06em !important; }
+.brand p { font-size: 10px !important; letter-spacing: .08em !important; }
+.header-actions { gap: 6px !important; flex-shrink: 0; }
+.model-pill { font-size: 11px !important; padding: 7px 9px !important; }
+.mode-bar {
+  flex: 0 0 auto !important;
+  gap: 6px !important;
+  padding: 8px 0 8px !important;
+}
+.mode-btn {
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+  padding: 9px 4px !important;
+  font-size: 11px !important;
+  white-space: nowrap !important;
+}
+.mode-note, .usage-wrap { flex: 0 0 auto; }
+main {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+.welcome {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  max-width: 650px !important;
+  margin: 0 auto !important;
+  padding: 14px 0 12px !important;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+.hero-icon { display: none !important; }
+.welcome h2 {
+  font-size: clamp(23px, 5vw, 31px) !important;
+  line-height: 1.16 !important;
+  letter-spacing: -.035em !important;
+  margin: 0 0 9px !important;
+}
+.welcome p {
+  max-width: 490px !important;
+  margin: 0 auto !important;
+  padding: 0 8px;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+}
+.suggestions {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 18px !important;
+  gap: 7px !important;
+  justify-content: center !important;
+}
+.suggestion {
+  flex: 1 1 100% !important;
+  width: 100% !important;
+  min-height: 40px !important;
+  padding: 9px 12px !important;
+  border-radius: 9px !important;
+  background: transparent !important;
+  border-color: #292929 !important;
+  color: #d0d0d0 !important;
+  text-align: left !important;
+  font-size: 13px !important;
+}
+.messages {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  max-width: 820px !important;
+  margin: 0 auto !important;
+  padding: 14px 2px !important;
+  overflow-y: auto !important;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.composer-wrap {
+  flex: 0 0 auto !important;
+  width: 100% !important;
+  max-width: 820px !important;
+  margin: 0 auto !important;
+  padding: 6px 0 max(8px, env(safe-area-inset-bottom)) !important;
+  position: relative !important;
+  inset: auto !important;
+  background: #101010 !important;
+  box-sizing: border-box !important;
+}
+.composer {
+  position: relative !important;
+  inset: auto !important;
+  width: 100% !important;
+  max-height: min(52dvh, 420px) !important;
+  overflow-y: auto !important;
+  margin: 0 !important;
+  padding: 8px 9px !important;
+  border: 1px solid #303030 !important;
+  border-radius: 15px !important;
+  background: #171717 !important;
+  box-shadow: none !important;
+  box-sizing: border-box !important;
+}
+#workspaceTools { display: none !important; }
+.composer.tools-open #workspaceTools { display: flex !important; }
+.workspace-tools {
+  display: flex;
+  gap: 6px !important;
+  margin: 0 0 8px !important;
+}
+.tool-btn, .language-select {
+  min-height: 36px !important;
+  padding: 7px 9px !important;
+  font-size: 11px !important;
+  border-radius: 8px !important;
+  background: #1c1c1c !important;
+  color: #ddd !important;
+  border-color: #303030 !important;
+  transform: none !important;
+}
+.tools-toggle {
+  flex: 0 0 38px;
+  width: 38px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  padding: 0 !important;
+  border: 1px solid #3a3a3a !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  color: #eee !important;
+  font-size: 23px !important;
+  line-height: 1 !important;
+}
+.composer.tools-open .tools-toggle { background: #292929 !important; }
+.composer textarea {
+  display: block !important;
+  width: 100% !important;
+  min-height: 42px !important;
+  max-height: 180px !important;
+  padding: 7px 5px 9px !important;
+  font-size: 16px !important;
+  line-height: 1.45 !important;
+  background: transparent !important;
+  color: #eee !important;
+  border: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  resize: none !important;
+  box-sizing: border-box !important;
+}
+.composer-bottom {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  padding-top: 7px !important;
+  border-top: 1px solid #292929 !important;
+}
+.composer-note {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: #929292 !important;
+  font-size: 10px !important;
+  line-height: 1.35 !important;
+}
+.send {
+  flex: 0 0 38px;
+  width: 38px !important;
+  height: 38px !important;
+  min-height: 38px !important;
+  border-radius: 10px !important;
+  background: #dedede !important;
+  color: #111 !important;
+  font-size: 21px !important;
+}
+.file-dock { margin: 0 0 6px !important; }
+.status { font-size: 11px !important; margin-top: 4px !important; min-height: 0 !important; }
+.composer-wrap > .composer-note { display: none !important; }
+/* Remove earlier sticky/fixed overrides that caused the visible overlap. */
+.composer, .composer-wrap, .input-area, .chat-input-area, .prompt-area {
+  position: relative !important;
+  inset: auto !important;
+  bottom: auto !important;
+}
+@media (max-width: 700px) {
+  .app { padding-left: max(12px, env(safe-area-inset-left)) !important; padding-right: max(12px, env(safe-area-inset-right)) !important; }
+  .brand .logo { display: none !important; }
+  .brand h1 { font-size: 13px !important; max-width: 50vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .model-pill { max-width: 150px; }
+  .header-actions .icon-btn { width: 36px !important; height: 36px !important; }
+  .workspace-tools { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tool-btn, .language-select { width: 100% !important; min-width: 0 !important; text-align: left; overflow-wrap: anywhere; }
+  .tool-hint { display: none !important; }
+  .composer.tools-open { max-height: min(62dvh, 520px) !important; }
+  .welcome { padding-top: 10px !important; padding-bottom: 8px !important; }
+  .welcome h2 { font-size: clamp(23px, 6.3vw, 29px) !important; }
+  .welcome p { font-size: 13px !important; }
+  .suggestions { margin-top: 14px !important; }
+  .suggestion { min-height: 37px !important; }
+}
+@media (max-height: 720px) {
+  .welcome p { display: none !important; }
+  .suggestions { margin-top: 10px !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
 </style>
 </head>
 <body>
@@ -245,8 +910,40 @@ img, svg, .logo {
   <section class="messages" id="messages" hidden aria-live="polite"></section>
   <div class="composer-wrap">
     <div class="composer">
-      <textarea id="prompt" rows="2" placeholder="Décris le problème, colle ton code ou lance un nouveau projet…" aria-label="Message"></textarea>
-      <div class="composer-bottom"><span class="composer-note">Entrée pour envoyer · Maj + Entrée pour une nouvelle ligne</span><button class="send" id="sendBtn" aria-label="Envoyer">↑</button></div>
+      
+<div class="workspace-tools" id="workspaceTools" aria-label="Outils de développement">
+  <button class="tool-btn" type="button" id="addFilesBtn">＋ Joindre des fichiers de code</button>
+  <button class="tool-btn" type="button" id="addPhotoBtn">◎ Analyser une photo</button>
+  <button class="tool-btn" type="button" id="folderBtn">＋ Importer un dossier de code</button>
+  <button class="tool-btn" type="button" id="exportChatBtn">Exporter la conversation</button>
+  <button class="tool-btn" type="button" id="exportFilesBtn">Exporter les pièces jointes</button>
+  <select class="language-select" id="codeLanguage" aria-label="Langage de code">
+    <option value="auto">Langage : automatique</option>
+    <option>ABAP</option><option>ActionScript</option><option>Ada</option><option>Assembly</option>
+    <option>Bash</option><option>Batch</option><option>C</option><option>C#</option><option>C++</option>
+    <option>Clojure</option><option>CMake</option><option>Cobol</option><option>CoffeeScript</option>
+    <option>CSS</option><option>D</option><option>Dart</option><option>Delphi</option><option>Dockerfile</option>
+    <option>Elixir</option><option>Elm</option><option>Erlang</option><option>Fortran</option><option>F#</option>
+    <option>GDScript</option><option>Go</option><option>GraphQL</option><option>Groovy</option><option>Haskell</option>
+    <option>HTML</option><option>Java</option><option>JavaScript</option><option>JSON</option><option>Julia</option>
+    <option>Kotlin</option><option>LaTeX</option><option>Lisp</option><option>Lua</option><option>Makefile</option>
+    <option>Markdown</option><option>MATLAB</option><option>Objective-C</option><option>OCaml</option><option>Pascal</option>
+    <option>Perl</option><option>PHP</option><option>PowerShell</option><option>Prolog</option><option>Python</option>
+    <option>R</option><option>Racket</option><option>Ruby</option><option>Rust</option><option>SAS</option>
+    <option>Scala</option><option>Scheme</option><option>SCSS</option><option>SQL</option><option>Swift</option>
+    <option>SystemVerilog</option><option>Tcl</option><option>Terraform</option><option>TypeScript</option><option>V</option>
+    <option>VB.NET</option><option>Verilog</option><option>VHDL</option><option>Visual Basic</option><option>Vue</option>
+    <option>WebAssembly</option><option>XML</option><option>YAML</option><option>Zig</option>
+  </select>
+  <span class="tool-hint">Espace réservé au code : sources, scripts, configurations, journaux et fichiers techniques.</span>
+</div>
+<div class="file-dock" id="fileDock" aria-live="polite"></div>
+<input class="file-input-hidden" id="fileInput" type="file" multiple>
+<input class="file-input-hidden" id="photoInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
+<input class="file-input-hidden" id="folderInput" type="file" multiple webkitdirectory directory>
+
+<textarea id="prompt" rows="2" placeholder="Décris le problème, colle ton code ou lance un nouveau projet…" aria-label="Message"></textarea>
+      <div class="composer-bottom"><button class="tools-toggle" id="toolsToggleBtn" type="button" aria-label="Afficher les outils" aria-expanded="false" aria-controls="workspaceTools">＋</button><span class="composer-note">Entrée pour envoyer · Maj + Entrée pour une nouvelle ligne</span><button class="send" id="sendBtn" aria-label="Envoyer">↑</button></div>
     </div>
     <div class="status" id="status" role="status"></div>
     
@@ -256,7 +953,7 @@ img, svg, .logo {
 <div class="overlay" id="settingsOverlay" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
  <div class="modal">
   <div class="modal-head"><h3 id="settingsTitle">Configuration</h3><button class="icon-btn" id="closeSettings" aria-label="Fermer">×</button></div>
-  <label class="field"><span>Clé API OpenRouter</span><input id="apiKey" type="password" placeholder="sk-or-v1-…" autocomplete="off" spellcheck="false"></label>
+  <label class="field"><span>Clé API FSM AI</span><input id="apiKey" type="password" placeholder="Saisis ta clé API FSM AI" autocomplete="off" spellcheck="false"></label>
   <div class="field"><span>Mode actif</span><input id="activeModeSetting" value="THANATOS 5.5 Lite" readonly></div>
   <p class="help">La clé est utilisée uniquement pour les requêtes envoyées depuis cette page. Elle n'est pas enregistrée dans le navigateur. Évite d'utiliser cette version sur un appareil partagé.</p>
   <p class="warning">Une application locale ne protège pas la clé contre toute inspection de l'appareil ou du navigateur. Pour une publication publique, utilise un serveur intermédiaire sécurisé.</p>
@@ -395,26 +1092,102 @@ img, svg, .logo {
 
  $('saveBtn').onclick=()=>{
    const key=$('apiKey').value.trim();
-   if(!key){$('settingsStatus').textContent='Saisis une clé API OpenRouter.';return}
+   if(!key){$('settingsStatus').textContent='Saisis une clé API FSM AI.';return}
    state.apiKey=key;
    startUsageRefresh();
    $('settingsStatus').textContent='Configuration appliquée à cette session.'; $('settingsStatus').className='status ok';
    setConnection(false, 'Clé configurée · non testée'); setStatus('Configuration prête.'); setTimeout(closeSettings,650);
  };
+
+ const CONTEXT_MODEL = 'mistralai/mistral-nemo';
+ const WEB_SEARCH_DEFAULT = true; // Recherche web activée par défaut et non paramétrable.
+ async function contextualizeRequest(key, userText) {
+   // Low-cost, invisible preflight. Failure is non-fatal: the original request is preserved.
+   const controller = new AbortController();
+   const timeout = setTimeout(() => controller.abort(), 9000);
+   try {
+     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+       method: 'POST',
+       signal: controller.signal,
+       headers: {
+         'Authorization': 'Bearer ' + key,
+         'Content-Type': 'application/json',
+         'HTTP-Referer': location.href,
+         'X-Title': 'THANATOS 5.5 Context Check'
+       },
+       body: JSON.stringify({
+         model: CONTEXT_MODEL,
+         temperature: 0.1,
+         max_tokens: 220,
+         messages: [
+           {
+             role: 'system',
+             content: 'Tu es THANATOS Context Check, un préprocesseur invisible pour un assistant exclusivement dédié au développement logiciel. Tu ne réponds jamais directement à l’utilisateur et tu ne génères aucun code final. Résume la demande en français sous forme de contexte compact pour un autre modèle : intention, objectif concret, langage/environnement si connus, contraintes explicites, résultat attendu et éventuelle ambiguïté essentielle. Préserve strictement l’intention originale. N’invente aucun détail. Si la demande porte sur la génération d’images ou de vidéos, signale simplement hors_périmètre_code. Réponds en texte structuré très court, sans markdown superflu.'
+           },
+           { role: 'user', content: userText }
+         ]
+       })
+     });
+     const data = await response.json();
+     if (!response.ok) throw new Error(data?.error?.message || 'Context Check indisponible');
+     const context = data?.choices?.[0]?.message?.content;
+     if (typeof context !== 'string' || !context.trim()) throw new Error('Contexte vide');
+     return context.trim().slice(0, 5000);
+   } catch (_) {
+     return '';
+   } finally {
+     clearTimeout(timeout);
+   }
+ }
+
  async function callApi(testOnly=false){
    const key=$('apiKey').value.trim() || state.apiKey;
-   const model=currentModel() || state.model;
-   if(!key){openSettings();$('settingsStatus').textContent='Ajoute ta clé API OpenRouter pour continuer.';return}
+   const model=(currentModel() || state.model) + (WEB_SEARCH_DEFAULT ? ':online' : '');
+   if(!key){openSettings();$('settingsStatus').textContent='Ajoute ta clé API FSM AI pour continuer.';return}
    if(!model){openSettings();return}
    if(!testOnly && !prompt.value.trim())return;
    state.apiKey=key;state.model=model; startUsageRefresh();
-   const userText=prompt.value.trim();
+   const typedText=prompt.value.trim();
+   if(!testOnly && !typedText && !(window.__thanatosGetPhotos?.().length) && !attachedFiles.length){setStatus('Écris une demande ou joins un fichier avant d’envoyer.','error');return}
+   const userText=appendFileContext(typedText || 'Analyse les fichiers joints et propose les prochaines étapes.');
    if(testOnly){$('settingsStatus').textContent='Test de connexion en cours…';setConnection(false, 'Test en cours…');$('testBtn').disabled=true}
-   else{state.history.push({role:'user',content:userText});addMessage('user',userText);prompt.value='';prompt.style.height='auto';setBusy(true);setStatus('L’assistant réfléchit…')}
+   else{addMessage('user',userText);prompt.value='';prompt.style.height='auto';setBusy(true);setStatus('Préparation de la requête…');}
    try{
+     let contextualizedText = userText;
+     if(!testOnly){
+       const context = await contextualizeRequest(key, userText);
+       if(context && /hors_périmètre_code/i.test(context)){
+         const refusal = 'THANATOS 5.5 est exclusivement spécialisé dans le code. Il ne génère pas d’images ni de vidéos. Je peux toutefois aider à programmer une fonctionnalité logicielle liée à votre projet.';
+         state.history.push({role:'user',content:userText});
+         state.history.push({role:'assistant',content:refusal});
+         addMessage('assistant',refusal);
+         setStatus('Demande hors périmètre code.');
+         return;
+       }
+       if(context) contextualizedText = 'DEMANDE ORIGINALE DE L’UTILISATEUR :\n' + userText + '\n\nCONTEXTE TECHNIQUE PRÉPARÉ EN AMONT (à utiliser comme aide, sans remplacer ni contredire la demande originale) :\n' + context;
+       setStatus('Contexte prêt. Génération du code…');
+       state.history.push({role:'user',content:contextualizedText});
+     } else {
+       contextualizedText = 'Réponds uniquement par OK.';
+     }
      const response=await fetch('https://openrouter.ai/api/v1/chat/completions',{
        method:'POST',headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json','HTTP-Referer':location.href,'X-Title':'THANATOS 5.5'},
-       body:JSON.stringify({model, messages:testOnly?[{role:'system',content:identityPrompt()},{role:'user',content:'Réponds uniquement par OK.'}]:[{role:'system',content:identityPrompt()}, ...state.history], temperature:0.4})
+       body:JSON.stringify({model, messages:testOnly?[{role:'system',content:identityPrompt()},{role:'user',content:'Réponds uniquement par OK.'}]:[{role:'system',content:identityPrompt()}, ...(() => {
+           const history = state.history.map(m => ({...m}));
+           const photos = window.__thanatosGetPhotos ? window.__thanatosGetPhotos() : [];
+           if (photos.length) {
+             for (let i=history.length-1;i>=0;i--) {
+               if (history[i].role==='user' && typeof history[i].content==='string') {
+                 history[i].content = [
+                   {type:'text',text:history[i].content},
+                   ...photos.map(p=>({type:'image_url',image_url:{url:p.dataUrl}}))
+                 ];
+                 break;
+               }
+             }
+           }
+           return history;
+         })()], temperature:0.4})
      });
      const data=await response.json();
      if(!response.ok)throw new Error(data?.error?.message || `Erreur API (${response.status})`);
@@ -425,16 +1198,102 @@ img, svg, .logo {
    }catch(err){
      const msg=err.message || 'Erreur inconnue';
      if(testOnly){$('settingsStatus').textContent='Échec : '+msg;$('settingsStatus').className='status error';setConnection(false, 'API déconnectée')}
-     else{state.history.pop();setConnection(false, 'API déconnectée');addMessage('assistant','Impossible de joindre OpenRouter : '+msg+'\n\nVérifie ta clé, l’identifiant du modèle et ta connexion.');setStatus('La requête a échoué.', 'error')}
+     else{
+       const last=state.history[state.history.length-1];
+       if(last && last.role==='user') state.history.pop();
+       setConnection(false, 'API déconnectée');
+       addMessage('assistant','Impossible de joindre FSM AI : '+msg+'\n\nVérifie ta clé, le modèle sélectionné et ta connexion.');
+       setStatus('La requête a échoué.', 'error')
+     }
    }finally{if(testOnly)$('testBtn').disabled=false;else setBusy(false)}
  }
+
+ // Workspace file controls: keep imports explicit, bounded and visible.
+ const fileInput = $('fileInput'), folderInput = $('folderInput');
+ const fileDock = $('fileDock');
+ const attachedFiles = [];
+ const MAX_TEXT_FILE = 250 * 1024, MAX_TOTAL_TEXT = 80 * 1024;
+ const codeExt = /\.(c|h|cc|cpp|cxx|cs|css|scss|html?|java|js|jsx|ts|tsx|json|md|markdown|py|rb|go|rs|php|sql|sh|bash|bat|ps1|xml|ya?ml|toml|ini|cfg|conf|txt|log|vue|svelte|swift|kt|kts|dart|lua|r|ipynb|gradle|makefile|dockerfile|tf|graphql|gql|proto|wasm|asm|s|vb|vbs|vhd|vhdl|sv|zig)$/i;
+ function renderFileDock(){
+   if(!fileDock) return;
+   fileDock.replaceChildren();
+   attachedFiles.forEach((entry,index)=>{
+     const chip=document.createElement('div'); chip.className='file-chip';
+     const name=document.createElement('span'); name.textContent=entry.file.name + (entry.text ? ' · prêt' : ' · référence');
+     const remove=document.createElement('button'); remove.type='button'; remove.textContent='×'; remove.setAttribute('aria-label','Retirer '+entry.file.name);
+     remove.addEventListener('click',()=>{attachedFiles.splice(index,1);renderFileDock()});
+     chip.append(name,remove);fileDock.appendChild(chip);
+   });
+ }
+ async function addCodeFiles(fileList){
+   const incoming=Array.from(fileList||[]);
+   let added=0, skipped=0;
+   for(const file of incoming){
+     if(attachedFiles.some(x=>x.file.name===file.name && x.file.size===file.size && x.file.lastModified===file.lastModified)){skipped++;continue}
+     let text=null;
+     const looksText=codeExt.test(file.name) || /^text\//i.test(file.type) || /json|javascript|xml|yaml/i.test(file.type);
+     if(looksText && file.size<=MAX_TEXT_FILE){
+       try{
+         const content=await file.text();
+         const already=attachedFiles.reduce((sum,x)=>sum+(x.text?x.text.length:0),0);
+         if(already+content.length<=MAX_TOTAL_TEXT) text=content;
+         else skipped++;
+       }catch(_){skipped++}
+     } else if(looksText && file.size>MAX_TEXT_FILE) skipped++;
+     attachedFiles.push({file,text});
+     added++;
+   }
+   renderFileDock();
+   if(added) setStatus(`${added} fichier(s) ajouté(s). ${skipped?skipped+' contenu(s) non importé(s) : doublon, trop volumineux ou limite atteinte.':''}`,'ok');
+   else if(skipped) setStatus('Aucun nouveau fichier ajouté. Vérifie les doublons et les limites de taille.','error');
+ }
+ if(fileInput) fileInput.addEventListener('change',async()=>{await addCodeFiles(fileInput.files);fileInput.value=''});
+ if(folderInput) folderInput.addEventListener('change',async()=>{await addCodeFiles(folderInput.files);folderInput.value=''});
+ $('addFilesBtn')?.addEventListener('click',()=>fileInput?.click());
+ $('folderBtn')?.addEventListener('click',()=>folderInput?.click());
+ function downloadBlob(name,blob){
+   const url=URL.createObjectURL(blob),a=document.createElement('a');
+   a.href=url;a.download=name;a.style.display='none';document.body.appendChild(a);a.click();a.remove();
+   setTimeout(()=>URL.revokeObjectURL(url),1000);
+ }
+ $('exportChatBtn')?.addEventListener('click',()=>{
+   const transcript=state.history.map(m=>{
+     const content=typeof m.content==='string'?m.content:
+       Array.isArray(m.content)?m.content.map(p=>p.type==='text'?p.text:(p.type==='image_url'?'[Photo jointe]':'')).filter(Boolean).join('\n'):'';
+     return `## ${m.role==='user'?'Utilisateur':'THANATOS'}\n\n${content}`;
+   }).join('\n\n---\n\n');
+   if(!transcript.trim()){setStatus('Aucune conversation à exporter.');return}
+   downloadBlob('thanatos-conversation.md',new Blob([transcript],{type:'text/markdown;charset=utf-8'}));
+   setStatus('Conversation exportée.','ok');
+ });
+ $('exportFilesBtn')?.addEventListener('click',()=>{
+   if(!attachedFiles.length){setStatus('Aucune pièce jointe à exporter.');return}
+   if(attachedFiles.length===1){
+     const entry=attachedFiles[0];
+     downloadBlob(entry.file.name,entry.file);
+   } else {
+     const manifest=attachedFiles.map(x=>({name:x.file.name,size:x.file.size,type:x.file.type||'inconnu',contenuTexteImporte:!!x.text,limite:'Les fichiers multiples sont listés ici; cette exportation ne crée pas d’archive ZIP.'}));
+     downloadBlob('thanatos-pieces-jointes.json',new Blob([JSON.stringify(manifest,null,2)],{type:'application/json;charset=utf-8'}));
+   }
+   setStatus(attachedFiles.length===1?'Pièce jointe exportée.':'Inventaire des pièces jointes exporté (pas une archive ZIP).','ok');
+ });
+ // Inject file contents into the next prompt, within a strict total budget.
+ function appendFileContext(text){
+   const selected=$('codeLanguage')?.value || 'auto';
+   const entries=attachedFiles.filter(x=>x.text);
+   if(!attachedFiles.length) return text;
+   const chunks=entries.map(x=>`--- FICHIER: ${x.file.name} ---\n${x.text}\n--- FIN FICHIER ---`);
+   const refs=attachedFiles.filter(x=>!x.text).map(x=>`${x.file.name} (${x.file.type||'type inconnu'}, ${x.file.size} octets — contenu non transmis car format binaire/non textuel ou limite dépassée)`);
+   return `${text}\n\nLANGAGE DEMANDÉ: ${selected}\nFICHIERS TEXTE JOINTS (contenus inclus ci-dessous):\n${chunks.join('\n\n')}${refs.length?'\n\nFICHIERS RÉFÉRENCÉS MAIS NON TRANSMIS :\n'+refs.join('\n'):''}`;
+ }
+
  $('testBtn').onclick=()=>callApi(true); sendBtn.onclick=()=>callApi(false);
  prompt.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();callApi(false)}});
  prompt.addEventListener('input',()=>{prompt.style.height='auto';prompt.style.height=Math.min(prompt.scrollHeight,180)+'px'});
  document.querySelectorAll('.suggestion').forEach(b=>b.onclick=()=>{prompt.value=({ 'Corriger du code':'Analyse ce code, identifie les erreurs et propose une correction en expliquant les changements.','Créer un projet':'Aide-moi à concevoir un projet logiciel étape par étape. Commence par clarifier les besoins essentiels.','Expliquer un bug':'Aide-moi à diagnostiquer un bug. Explique les causes possibles et propose une méthode de vérification.'})[b.textContent]||'';prompt.focus();prompt.dispatchEvent(new Event('input'))});
 })();
 </script>
-<div class="composer-note" style="text-align:center;padding:10px 12px;color:#8492a6">Vous devez disposer d’une clé API FSM AI valide pour utiliser THANATOS 5.5.</div>
+<div class="composer-note" style="text-align:center;padding:10px 12px;color:#8492a6">Une clé API FSM AI valide est nécessaire pour utiliser THANATOS 5.5.</div>
 <script>
 (() => {
   const interactiveText = 'input, textarea, select, pre, code, .bubble, .messages';
@@ -451,6 +1310,97 @@ img, svg, .logo {
     }
     lastTouchEnd = now;
   }, { passive: false });
+})();
+</script>
+
+
+<script>
+(() => {
+  const codingOnlyRule = `RÈGLE DE SPÉCIALISATION ABSOLUE : tu es THANATOS 5.5, assistant exclusivement spécialisé en programmation et ingénierie logicielle. Tu traites le code, les algorithmes, l'architecture logicielle, le débogage, les tests, la sécurité défensive, la documentation technique, les scripts, les configurations et l'analyse de fichiers de code. Tu refuses la génération ou modification d'images et de vidéos, ainsi que les demandes visant à produire des médias visuels. Si une demande concerne des images ou des vidéos, indique brièvement que THANATOS est réservé au code et propose une alternative purement technique.`;
+  const promptBox = document.querySelector('.composer textarea, textarea');
+  const sendBtn = document.querySelector('.send');
+  let lastGuardedValue = '';
+  function enforceCodingScope() {
+    if (!promptBox) return;
+    const value = promptBox.value.trim();
+    if (!value || value === lastGuardedValue) return;
+    const mediaRequest = /\b(génère|générer|crée|créer|fabrique|produis|produire)\b.{0,80}\b(image|images|vidéo|vidéos|video|videos|illustration|illustrations|photo|photos|animation vidéo)\b/i.test(value)
+      || /\b(image|vidéo|vidéos|video|videos)\b.{0,60}\b(génère|générer|crée|créer|fabrique|produis|produire)\b/i.test(value);
+    if (mediaRequest) {
+      // Keep the app's model connection, but clearly scope the user request to code-only.
+      promptBox.value = value + '\n\n[CADRE THANATOS : assistant exclusivement dédié au code. Ne génère aucun média visuel. Réponds brièvement en rappelant cette spécialisation et propose uniquement une alternative de programmation si pertinente.]';
+      lastGuardedValue = promptBox.value;
+    }
+  }
+  promptBox?.addEventListener('input', () => { lastGuardedValue = ''; promptBox.dataset.photosNote = ''; });
+  sendBtn?.addEventListener('pointerdown', enforceCodingScope, true);
+  promptBox?.closest('form')?.addEventListener('submit', enforceCodingScope, true);
+  // Inform the model on every request through the existing prompt text without affecting normal code requests.
+  promptBox?.setAttribute('aria-label', 'Demande de programmation uniquement');
+})();
+</script>
+
+
+<script>
+(() => {
+  const input = document.getElementById('photoInput');
+  const button = document.getElementById('addPhotoBtn');
+  const promptBox = document.querySelector('.composer textarea, textarea');
+  const dock = document.getElementById('fileDock');
+  if (!input || !button || !promptBox) return;
+  const photos = [];
+  const preview = document.createElement('div');
+  preview.id = 'photoPreviewList';
+  preview.className = 'photo-preview-list';
+  if (dock?.parentNode) dock.parentNode.insertBefore(preview, dock.nextSibling);
+  else promptBox.parentNode.insertBefore(preview, promptBox);
+  button.addEventListener('click', () => input.click());
+  input.addEventListener('change', async () => {
+    for (const file of Array.from(input.files || [])) {
+      if (!file.type.startsWith('image/')) continue;
+      if (file.size > 8 * 1024 * 1024) { alert('Photo trop volumineuse (maximum 8 Mo par image).'); continue; }
+      const dataUrl = await new Promise(resolve => {
+        const reader = new FileReader(); reader.onload=()=>resolve(reader.result); reader.onerror=()=>resolve(null); reader.readAsDataURL(file);
+      });
+      if (dataUrl) photos.push({file, dataUrl});
+    }
+    render(); input.value='';
+  });
+  function render() {
+    preview.innerHTML='';
+    photos.forEach((photo,index) => {
+      const item=document.createElement('div'); item.className='photo-preview';
+      const img=document.createElement('img'); img.src=photo.dataUrl; img.alt='Aperçu de '+photo.file.name;
+      const label=document.createElement('span'); label.textContent=photo.file.name;
+      const remove=document.createElement('button'); remove.type='button'; remove.textContent='×'; remove.setAttribute('aria-label','Retirer la photo');
+      remove.addEventListener('click',()=>{photos.splice(index,1);render()});
+      item.append(img,label,remove); preview.appendChild(item);
+    });
+  }
+  function injectNote() {
+    if (!photos.length || promptBox.dataset.photosNote === '1') return;
+    promptBox.value += '\n\n[Analyse des photos jointes demandée : analyse technique et aide à la programmation uniquement. Pas de génération d’image ou de vidéo.]';
+    promptBox.dataset.photosNote='1';
+  }
+  promptBox.closest('form')?.addEventListener('submit',injectNote,true);
+  document.querySelector('.send')?.addEventListener('pointerdown',injectNote,true);
+  window.__thanatosGetPhotos=()=>photos.map(p=>({name:p.file.name,dataUrl:p.dataUrl,mimeType:p.file.type}));
+})();
+</script>
+
+
+<script>
+(() => {
+  const button = document.getElementById('toolsToggleBtn');
+  const composer = document.querySelector('.composer');
+  const tools = document.getElementById('workspaceTools');
+  if (!button || !composer || !tools) return;
+  button.addEventListener('click', () => {
+    const open = composer.classList.toggle('tools-open');
+    button.setAttribute('aria-expanded', String(open));
+    button.setAttribute('aria-label', open ? 'Masquer les outils' : 'Afficher les outils');
+    button.textContent = open ? '×' : '＋';
+  });
 })();
 </script>
 
