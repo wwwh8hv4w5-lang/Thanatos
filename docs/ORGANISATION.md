@@ -44,13 +44,13 @@ Ce texte était **le même pour les trois niveaux**, au nom près. Il n'y avait 
 
 Chaque demande envoie toujours **un seul** message système, désormais construit par `systemPrompt()`, dans cet ordre :
 
-1. `identityPrompt()` : inchangé (identité du niveau et format de l'application).
+1. `identityPrompt()` : identité du niveau et format de l'application. Seul changement : le fichier HTML livré ne dépend d'aucune ressource externe (polices, images, sons et scripts intégrés), comme le demande la doctrine.
 2. `DOCTRINE` : la consigne système complète, identique pour les trois niveaux (priorités, Règles FSM, profondeur selon le niveau, ambiguïté, méthode, applications, jeux, cinématiques, contrôles avant livraison, livraison).
 3. `levelPrompt()` : `NIVEAU ACTIF : <nom du niveau>`, suivi de la règle de ce niveau seulement (`LEVEL_RULES`, tirée des sections 2, 12 et 14 de la doctrine) :
    - **Thanatos 5.5 Lite** : réponse directe aux demandes simples ; au-delà, découpage fin, une modification à la fois, contrôle après chaque étape ; si la demande dépasse le périmètre, proposer Thanatos 6.0 Pro ou Thanatos 6.5 Extend Max, ou plusieurs demandes courtes.
    - **Thanatos 6.0 Pro** : boucle complète dès que plusieurs fonctions ou un bug non trivial sont en jeu ; plan court écrit ; vérification de l'ensemble avant livraison.
    - **Thanatos 6.5 Extend Max** : boucle complète systématique sur les tâches lourdes : carte du projet, plan écrit, étape la plus risquée d'abord, note de bord, double relecture, recherche des bugs jumeaux.
-4. `APP_BRIDGE` : l'articulation entre la doctrine et le format de l'application. Les Règles FSM priment ; le format HTML de l'onglet Code s'applique tel quel ; le compte rendu de livraison tient dans la courte présentation.
+4. `APP_BRIDGE` : l'articulation entre la doctrine et le format de l'application. Les Règles FSM priment ; le format HTML de l'onglet Code s'applique tel quel ; le compte rendu de livraison tient dans la courte présentation. Elle précise aussi : le nom est celui du niveau actif (« Thanatos » désigne la gamme) ; la réponse est rédigée dans la langue de la demande originale, même si le contexte préparé en amont est en français ; ce contexte reste interne et n'est jamais mentionné.
 
 Le niveau est lu au moment de chaque envoi : si l'utilisateur change de niveau dans le menu du titre, la demande suivante reçoit l'identité et la règle du nouveau niveau. La consigne n'est jamais enregistrée dans l'historique de la conversation, jamais affichée, et jamais incluse dans les exports.
 
@@ -67,3 +67,7 @@ Les tests de bout en bout (WebKit et Chromium, réseau simulé, clé factice) se
 - la pré-analyse sans la doctrine ;
 - rien d'affiché à l'écran ;
 - aucune clé dans le dépôt.
+
+## Journal de travail
+
+La passe « méthode » (carte, plan, étape la plus risquée d'abord, double relecture, bugs jumeaux) est consignée dans [NOTE-DE-BORD.md](NOTE-DE-BORD.md).
