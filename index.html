@@ -1272,6 +1272,7 @@ EN LIVRANT
 
  /* ---------- Statut ---------- */
  let statusTimer = null;
+ window.__thanatosStatus = (t, ty) => setStatus(t, ty); /* statut commun aux scripts complémentaires */
  function setStatus(text, type=''){
    clearTimeout(statusTimer);
    status.textContent = text || '';
@@ -1332,14 +1333,14 @@ EN LIVRANT
  const fmtReset = dt => dt.toLocaleString('fr-FR', { weekday:'long', day:'numeric', month:'long', hour:'2-digit', minute:'2-digit' });
  function resetText(){
    const r = state.keyInfo?.reset;
-   if(r === 'monthly'){ const d = new Date(); const n = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1)); return ` Elle se renouvelle le 1er ${n.toLocaleDateString('fr-FR', { month:'long', timeZone:'UTC' })}.`; }
+   if(r === 'monthly'){ const n = nextMonthUTC(); return ` Elle se renouvelle le 1er ${n.toLocaleDateString('fr-FR', { month:'long', timeZone:'UTC' })}.`; }
    if(r === 'weekly') return ' Elle se renouvelle lundi prochain.';
    if(r === 'daily') return ' Elle se renouvelle demain.';
    return '';
  }
  function resetShort(){
    const r = state.keyInfo?.reset;
-   if(r === 'monthly'){ const d = new Date(); const n = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1)); return 'Renouvellement le 1er ' + n.toLocaleDateString('fr-FR', { month:'long', timeZone:'UTC' }); }
+   if(r === 'monthly'){ const n = nextMonthUTC(); return 'Renouvellement le 1er ' + n.toLocaleDateString('fr-FR', { month:'long', timeZone:'UTC' }); }
    if(r === 'weekly') return 'Renouvellement lundi'; if(r === 'daily') return 'Renouvellement demain';
    return '';
  }
@@ -1452,7 +1453,7 @@ EN LIVRANT
    if(unlockAsk){
      const left = Math.round(monthLeftRatio() * 100);
      const leftTxt = left <= 0 ? '0 %' : left < 1 ? 'moins de 1 %' : left + ' %';
-     return `<div class="kp-confirm"><p>Ce déblocage remet à zéro le compteur de la semaine en cours. La consommation continue de compter dans le mois.</p><p>Il reste <b>${leftTxt}</b> du plafond mensuel. Une semaine complète représente <b>30 %</b> de ce plafond. Le plafond mensuel ne change pas.</p><p class="us-sub">Un seul déblocage par mois et par clé, sur cet appareil.</p>${fsmHidden() ? '<p class="us-sub">FSM AI n’est pas visible depuis cette app : si tu as déjà débloqué ta limite dans FSM AI ce mois-ci, ce déblocage n’apparaît pas ici. Sur iPhone, chaque app ajoutée à l’écran d’accueil garde ses données à part.</p>' : ''}<div class="kp-confirm-row"><button type="button" class="kp-unlock primary" data-unlock-yes>Oui, débloquer</button><button type="button" class="kp-unlock" data-unlock-no>Annuler</button></div></div>`;
+     return `<div class="kp-confirm"><p>Ce déblocage remet à zéro le compteur de la semaine en cours. La consommation continue de compter dans le mois.</p><p>Il reste <b>${leftTxt}</b> du plafond mensuel. Une semaine complète représente <b>${Math.round(WEEK_SHARE * 100)} %</b> de ce plafond. Le plafond mensuel ne change pas.</p><p class="us-sub">Un seul déblocage par mois et par clé, sur cet appareil.</p>${fsmHidden() ? '<p class="us-sub">FSM AI n’est pas visible depuis cette app : si tu as déjà débloqué ta limite dans FSM AI ce mois-ci, ce déblocage n’apparaît pas ici. Sur iPhone, chaque app ajoutée à l’écran d’accueil garde ses données à part.</p>' : ''}<div class="kp-confirm-row"><button type="button" class="kp-unlock primary" data-unlock-yes>Oui, débloquer</button><button type="button" class="kp-unlock" data-unlock-no>Annuler</button></div></div>`;
    }
    return `<button class="kp-unlock" type="button" data-unlock>Débloquer ma limite</button>`;
  }
@@ -2331,7 +2332,7 @@ document.addEventListener('keydown', e => { if(e.key === 'Escape' && !e.defaultP
   input.addEventListener('change', async () => {
     for (const file of Array.from(input.files || [])) {
       if (!file.type.startsWith('image/')) continue;
-      if (file.size > 8 * 1024 * 1024) { const st = document.getElementById('status'); if (st){ st.textContent = 'Photo trop volumineuse (maximum 8 Mo par image).'; st.className = 'status error show'; } continue; }
+      if (file.size > 8 * 1024 * 1024) { window.__thanatosStatus?.('Photo trop volumineuse (maximum 8 Mo par image).', 'error'); continue; }
       const dataUrl = await new Promise(resolve => {
         const reader = new FileReader(); reader.onload=()=>resolve(reader.result); reader.onerror=()=>resolve(null); reader.readAsDataURL(file);
       });
