@@ -2123,12 +2123,12 @@ modeMenu.addEventListener('keydown', e => {
   else if(e.key === 'Escape' || e.key === 'Tab'){ if(e.key === 'Escape'){ e.preventDefault(); e.stopPropagation(); } toggleModeMenu(false); if(e.key === 'Escape') modeBtn.focus(); }
 });
 document.addEventListener('click', e => { if(!modeMenu.hidden && !e.target.closest('#modeMenu, #modeBtn')) toggleModeMenu(false); });
-document.addEventListener('keydown', e => { if(e.key === 'Escape' && !modeMenu.hidden){ toggleModeMenu(false); modeBtn.focus(); } });
+document.addEventListener('keydown', e => { if(e.key === 'Escape' && !e.defaultPrevented && !modeMenu.hidden){ e.preventDefault(); toggleModeMenu(false); modeBtn.focus(); } });
  $('settingsBtn').addEventListener('click', openSettings); $('closeSettings').addEventListener('click', closeSettings);
  $('newChatBtn').addEventListener('click', () => { if(!state.history.length){ prompt.focus(); return; } clearConversation(true); if(!coarse) prompt.focus(); });
  overlay.addEventListener('click', e => { if(e.target === overlay) closeSettings(); });
  document.addEventListener('keydown', e => {
-   if(e.key !== 'Escape') return;
+   if(e.key !== 'Escape' || e.defaultPrevented) return; /* un appui = une seule action (plein écran, menu déjà traités) */
    if(overlay.classList.contains('open')){ e.preventDefault(); closeSettings(); return; }
    if(!keyPop.hidden){ toggleKeyPop(false); pill.focus(); return; }
    if(state.busy){ stopGeneration(); return; }
