@@ -1944,6 +1944,19 @@ document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && state
  async function readStream(response, onDelta, signal, meta){
    const reader = response.body.getReader(); const dec = new TextDecoder(); let buf = '', text = '';
    const onAbort = () => { try{ reader.cancel(); }catch(_){} };
+   /* une ligne « data: » du flux ; renvoie true sur [DONE] */
+   const handle = raw => {
+     const line = raw.trim();
+     if(!line.startsWith('data:')) return false;
+     const payload = line.slice(5).trim();
+     if(payload === '[DONE]') return true;
+     let j; try{ j = JSON.parse(payload); }catch(_){ return false; }
+     if(j.error){ const e = new Error(j.error.message ? 'Le service a interrompu la réponse. Réessaie.' : 'Réponse interrompue.'); e.status = j.error.code || 500; throw e; }
+     if(meta && j.usage && j.usage.cost != null) meta.cost = +j.usage.cost || 0;
+     const d = j.choices?.[0]?.delta?.content ?? j.choices?.[0]?.message?.content;
+     if(typeof d === 'string' && d){ text += d; onDelta(text); }
+     return false;
+   };
    signal?.addEventListener('abort', onAbort, { once:true });
    try{
      for(;;){
@@ -1952,17 +1965,13 @@ document.addEventListener('visibilitychange', ()=>{ if(!document.hidden && state
        buf += dec.decode(value, { stream:true });
        let nl;
        while((nl = buf.indexOf('\n')) >= 0){
-         const line = buf.slice(0, nl).trim(); buf = buf.slice(nl + 1);
-         if(!line.startsWith('data:')) continue;
-         const payload = line.slice(5).trim();
-         if(payload === '[DONE]') return text;
-         let j; try{ j = JSON.parse(payload); }catch(_){ continue; }
-         if(j.error){ const e = new Error(j.error.message ? 'Le service a interrompu la réponse. Réessaie.' : 'Réponse interrompue.'); e.status = j.error.code || 500; throw e; }
-         if(meta && j.usage && j.usage.cost != null) meta.cost = +j.usage.cost || 0;
-         const d = j.choices?.[0]?.delta?.content ?? j.choices?.[0]?.message?.content;
-         if(typeof d === 'string' && d){ text += d; onDelta(text); }
+         const line = buf.slice(0, nl); buf = buf.slice(nl + 1);
+         if(handle(line)) return text;
        }
      }
+     /* dernière ligne sans retour à la ligne final : ne pas la perdre */
+     buf += dec.decode();
+     if(!signal?.aborted && buf.trim()) handle(buf);
    } finally { signal?.removeEventListener('abort', onAbort); }
    if(signal?.aborted){ const e = new DOMException('Arrêté', 'AbortError'); throw e; }
    return text;
