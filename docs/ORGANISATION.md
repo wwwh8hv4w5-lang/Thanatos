@@ -52,12 +52,12 @@ Chaque demande envoie toujours **un seul** message système, désormais construi
    - **Thanatos 6.5 Extend Max** : boucle complète systématique sur les tâches lourdes : carte du projet, plan écrit, étape la plus risquée d'abord, note de bord, double relecture, recherche des bugs jumeaux.
 4. `APP_BRIDGE` : l'articulation entre la doctrine et le format de l'application. Les Règles FSM priment ; le format HTML de l'onglet Code s'applique tel quel ; le compte rendu de livraison tient dans les trois lignes finales, placées après le bloc HTML. Elle précise aussi : le nom est celui du niveau actif (« Thanatos » désigne la gamme) ; la réponse est rédigée dans la langue de la demande originale, même si le contexte préparé en amont est en français ; ce contexte reste interne et n'est jamais mentionné.
    Règles propres à l'application, ajoutées après les essais réels (la doctrine reste copiée à l'identique) :
-   - **Première personne** : « je » ; tutoiement par défaut, vouvoiement si la personne vouvoie (clients = entreprises).
+   - **Première personne** : la première phrase commence par « Je » ; tutoiement par défaut (une demande à l'impératif compte comme tutoiement), vouvoiement seulement si la personne écrit « vous » (clients = entreprises), jamais de mélange.
    - **Chiffres** : aucun nombre pour une valeur propre à la personne (mesure, statistique, prix, temps), même en exemple ; emplacement visible `[À COMPLÉTER : …]`.
-   - **Secrets et données personnelles collés** : jamais recopiés, même dans un exemple (`.env`, commande, configuration, courriel) ; seulement des valeurs fictives bien visibles.
+   - **Secrets et données personnelles collés** : jamais recopiés, même dans un exemple (`.env`, commande, configuration, courriel) ; seulement des valeurs fictives bien visibles (`OPENROUTER_API_KEY=VOTRE_CLE_ICI`, `adresse@exemple.fr`) ; ni la valeur entière, ni son début, ni un fragment.
    - **Résultats web** : jamais présentés comme les données de la personne.
-   - **Périmètre** : ni renommage ni changement du type d'un module (`export`) sans demande.
-   - **Certitude** : rien d'affirmé sans exécution ; un résultat d'exemple est « attendu » et recalculé.
+   - **Périmètre** : ni renommage ni changement du type d'un module sans demande : aucun `export`, `module.exports` ou `import` ajouté à un fichier qui n'en avait pas.
+   - **Certitude** : rien d'affirmé sans exécution ; chaque commentaire de résultat d'exemple commence par « attendu : », après recalcul caractère par caractère ; exemples courts, vérifiables d'un coup d'œil, jamais de cas long inventé.
    - **Fin de chaque réponse** : exactement trois lignes, `Changé : …`, `Supposé : …`, `Non exécuté : …`.
 
 Le niveau est lu au moment de chaque envoi : si l'utilisateur change de niveau dans le menu du titre, la demande suivante reçoit l'identité et la règle du nouveau niveau. La consigne n'est jamais enregistrée dans l'historique de la conversation, jamais affichée, et jamais incluse dans les exports.
