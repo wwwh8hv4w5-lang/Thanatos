@@ -50,7 +50,15 @@ Chaque demande envoie toujours **un seul** message système, désormais construi
    - **Thanatos 5.5 Lite** : réponse directe aux demandes simples ; au-delà, découpage fin, une modification à la fois, contrôle après chaque étape ; si la demande dépasse le périmètre, proposer Thanatos 6.0 Pro ou Thanatos 6.5 Extend Max, ou plusieurs demandes courtes.
    - **Thanatos 6.0 Pro** : boucle complète dès que plusieurs fonctions ou un bug non trivial sont en jeu ; plan court écrit ; vérification de l'ensemble avant livraison.
    - **Thanatos 6.5 Extend Max** : boucle complète systématique sur les tâches lourdes : carte du projet, plan écrit, étape la plus risquée d'abord, note de bord, double relecture, recherche des bugs jumeaux.
-4. `APP_BRIDGE` : l'articulation entre la doctrine et le format de l'application. Les Règles FSM priment ; le format HTML de l'onglet Code s'applique tel quel ; le compte rendu de livraison tient dans la courte présentation. Elle précise aussi : le nom est celui du niveau actif (« Thanatos » désigne la gamme) ; la réponse est rédigée dans la langue de la demande originale, même si le contexte préparé en amont est en français ; ce contexte reste interne et n'est jamais mentionné.
+4. `APP_BRIDGE` : l'articulation entre la doctrine et le format de l'application. Les Règles FSM priment ; le format HTML de l'onglet Code s'applique tel quel ; le compte rendu de livraison tient dans les trois lignes finales, placées après le bloc HTML. Elle précise aussi : le nom est celui du niveau actif (« Thanatos » désigne la gamme) ; la réponse est rédigée dans la langue de la demande originale, même si le contexte préparé en amont est en français ; ce contexte reste interne et n'est jamais mentionné.
+   Règles propres à l'application, ajoutées après les essais réels (la doctrine reste copiée à l'identique) :
+   - **Première personne** : « je » ; tutoiement par défaut, vouvoiement si la personne vouvoie (clients = entreprises).
+   - **Chiffres** : aucun nombre pour une valeur propre à la personne (mesure, statistique, prix, temps), même en exemple ; emplacement visible `[À COMPLÉTER : …]`.
+   - **Secrets et données personnelles collés** : jamais recopiés, même dans un exemple (`.env`, commande, configuration, courriel) ; seulement des valeurs fictives bien visibles.
+   - **Résultats web** : jamais présentés comme les données de la personne.
+   - **Périmètre** : ni renommage ni changement du type d'un module (`export`) sans demande.
+   - **Certitude** : rien d'affirmé sans exécution ; un résultat d'exemple est « attendu » et recalculé.
+   - **Fin de chaque réponse** : exactement trois lignes, `Changé : …`, `Supposé : …`, `Non exécuté : …`.
 
 Le niveau est lu au moment de chaque envoi : si l'utilisateur change de niveau dans le menu du titre, la demande suivante reçoit l'identité et la règle du nouveau niveau. La consigne n'est jamais enregistrée dans l'historique de la conversation, jamais affichée, et jamais incluse dans les exports.
 
@@ -63,6 +71,7 @@ Les tests de bout en bout (WebKit et Chromium, réseau simulé, clé factice) se
 - copie exacte de la consigne ;
 - un seul message système, dans le bon ordre ;
 - la règle du seul niveau actif, et le changement de niveau en cours de session ;
+- les règles propres à l'application (première personne, `[À COMPLÉTER : …]`, secrets collés, résultats web, périmètre, certitude) et les trois lignes finales, en dernier dans la consigne ;
 - le routage inchangé ;
 - la pré-analyse sans la doctrine ;
 - rien d'affiché à l'écran ;
